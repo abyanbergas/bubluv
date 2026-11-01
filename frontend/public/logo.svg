@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" fill="none">
+  <defs>
+    <linearGradient id="cupGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5A8D0"/>
+      <stop offset="100%" stop-color="#7652A8"/>
+    </linearGradient>
+    <linearGradient id="lidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7652A8"/>
+      <stop offset="100%" stop-color="#35264A"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Drink Cup Icon -->
+  <g transform="translate(10, 8)">
+    <!-- Straw -->
+    <path d="M38 4 L44 -6 C45 -8 48 -8 49 -6 C51 -4 51 -1 49 1 L42 12" stroke="#F5A8D0" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Cup Lid -->
+    <ellipse cx="32" cy="14" rx="22" ry="6" fill="url(#lidGrad)"/>
+    <ellipse cx="32" cy="14" rx="16" ry="3.5" fill="#E9DDFB" opacity="0.4"/>
+    
+    <!-- Cup Body -->
+    <path d="M12 15 L18 56 C18.8 61 23 64 28 64 L36 64 C41 64 45.2 61 46 56 L52 15 Z" fill="url(#cupGrad)"/>
+    
+    <!-- Liquid Wave Accent -->
+    <path d="M14 26 Q 23 30 32 26 T 50 26 L 46 56 C 45.2 61 41 64 36 64 L 28 64 C 23 64 18.8 61 18 56 Z" fill="#7652A8" opacity="0.45"/>
+    
+    <!-- Bubbles / Boba -->
+    <circle cx="26" cy="52" r="4" fill="#35264A"/>
+    <circle cx="38" cy="53" r="4.5" fill="#35264A"/>
+    <circle cx="32" cy="44" r="3.5" fill="#35264A"/>
+    <circle cx="23" cy="38" r="3" fill="#35264A" opacity="0.8"/>
+    <circle cx="41" cy="39" r="3" fill="#35264A" opacity="0.8"/>
+    
+    <!-- Heart Accent on Cup -->
+    <path d="M32 28 C30 25 26 26 26 29 C26 32 32 35 32 35 C32 35 38 32 38 29 C38 26 34 25 32 28 Z" fill="#FFFFFF"/>
+    
+    <!-- Sparkle Stars -->
+    <path d="M54 4 Q54 8 58 8 Q54 8 54 12 Q54 8 50 8 Q54 8 54 4 Z" fill="#F5A8D0"/>
+    <circle cx="9" cy="22" r="2" fill="#F5A8D0"/>
+  </g>
+  
+  <!-- Text Logo -->
+  <g transform="translate(80, 52)">
+    <text font-family="'Poppins', sans-serif" font-weight="800" font-size="34" letter-spacing="-0.5">
+      <tspan fill="#35264A">Bub</tspan>
+      <tspan fill="#7652A8">Luv</tspan>
+    </text>
+    <text x="3" y="16" font-family="'Poppins', sans-serif" font-weight="600" font-size="9" fill="#746A7E" letter-spacing="3.5">
+      POWDER DRINK
+    </text>
+  </g>
+</svg>
