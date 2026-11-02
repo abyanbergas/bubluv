@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-export const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || 'http://localhost:8000';
+export const API_URL = import.meta.env.VITE_API_URL || '/api';
+export const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || '';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -35,6 +35,7 @@ api.interceptors.response.use(
 export function getImageUrl(path?: string | null): string {
   if (!path || path.trim() === '') return '/logo.svg'; // placeholder sampai gambar tersedia
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  if (path.startsWith('data:')) return path; // Gambar base64 disimpan langsung di database
   if (path.startsWith('/storage/')) return `${STORAGE_URL}${path}`;
   if (path.startsWith('/images/')) return path; // Served directly from frontend public
   return `${STORAGE_URL}/storage/${path.replace(/^\/+/, '')}`;

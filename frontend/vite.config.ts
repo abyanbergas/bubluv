@@ -11,5 +11,13 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    proxy: {
+      // Proxy API requests ke vercel dev server (jalankan `vercel dev --listen 3001`
+      // di terminal terpisah) atau URL API lain via VITE_DEV_API_TARGET.
+      '/api': {
+        target: process.env.VITE_DEV_API_TARGET || 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
   }
 })
