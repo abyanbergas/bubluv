@@ -1,7 +1,7 @@
 /* Integration test: memanggil catch-all router api/[...path].ts langsung */
 import 'dotenv/config';
 import { Readable } from 'node:stream';
-import routerHandler from '../api/[...path]';
+import routerHandler from '../api/index';
 
 function makeRes() {
   return {

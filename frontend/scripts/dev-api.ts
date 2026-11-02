@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const ROUTER_PATH = join(__dirname, '..', 'api', '[...path].ts');
+const ROUTER_PATH = join(__dirname, '..', 'api', 'index.ts');
 const PORT = Number(process.env.API_PORT || 3001);
 
 const server = http.createServer(async (req, res) => {
