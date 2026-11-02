@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/((?!api/|images/|assets/|.*\\..*).*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ],
