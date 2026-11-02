@@ -14,8 +14,25 @@ export interface ParsedMultipart {
   files: Record<string, UploadedFile>;
 }
 
-const MAX_FILE_SIZE = 4 * 1024 * 1024;
+const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB (total request Vercel limit 4.5MB, sisanya untuk field & overhead base64)
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+
+// Magic number validation: cek header byte agar file benar-benar gambar
+function isRealImage(buf: Buffer, mime: string): boolean {
+  if (buf.length < 12) return false;
+  if (mime === 'image/jpeg' || mime === 'image/jpg') {
+    return buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff;
+  }
+  if (mime === 'image/png') {
+    return (
+      buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47
+    );
+  }
+  if (mime === 'image/webp') {
+    return buf.slice(0, 4).toString('ascii') === 'RIFF' && buf.slice(8, 12).toString('ascii') === 'WEBP';
+  }
+  return false;
+}
 
 export const ALLOWED_IMAGE_EXT: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -40,9 +57,6 @@ export async function parseMultipart(req: VercelRequest): Promise<ParsedMultipar
     }
 
     bb.on('field', (name, val) => {
-      fields[stripIndex(name)] = fields[stripIndex(name)]
-        ? `${fields[stripIndex(name)]}`
-        : val;
       fields[name] = val;
     });
 
@@ -55,7 +69,7 @@ export async function parseMultipart(req: VercelRequest): Promise<ParsedMultipar
       });
       file.on('end', () => {
         if (truncated) {
-          const e: any = new Error('Ukuran file terlalu besar (maksimal 4MB).');
+          const e: any = new Error('Ukuran file terlalu besar (maksimal 3MB).');
           e.status = 422;
           return reject(e);
         }
@@ -65,12 +79,18 @@ export async function parseMultipart(req: VercelRequest): Promise<ParsedMultipar
           e.status = 422;
           return reject(e);
         }
+        const buffer = Buffer.concat(chunks);
+        if (!isRealImage(buffer, info.mimeType)) {
+          const e: any = new Error('File yang diunggah bukan gambar yang valid.');
+          e.status = 422;
+          return reject(e);
+        }
         files[name] = {
           fieldname: name,
           filename: info.filename,
           mimetype: info.mimeType,
-          buffer: Buffer.concat(chunks),
-          size: Buffer.concat(chunks).length,
+          buffer,
+          size: buffer.length,
         };
       });
     });
@@ -91,10 +111,6 @@ export async function parseMultipart(req: VercelRequest): Promise<ParsedMultipar
       req.pipe(bb);
     }
   });
-}
-
-function stripIndex(name: string): string {
-  return name.replace(/\[\d+\]/g, '');
 }
 
 export function toDataUri(file: UploadedFile): string {

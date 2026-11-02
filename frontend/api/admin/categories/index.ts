@@ -27,6 +27,7 @@ export default wrapHandler(
       const body = req.body || {};
       const name = (body.name || '').trim();
       const description = body.description ? String(body.description).trim() : null;
+      const image = body.image ? String(body.image).trim() : null;
       const isActive = body.is_active !== undefined ? bool(body.is_active, true) : true;
 
       if (!name) return fail(res, 'Nama kategori wajib diisi.', 422);
@@ -39,8 +40,8 @@ export default wrapHandler(
       }
 
       const result = await execute(
-        'INSERT INTO categories (name, slug, description, is_active) VALUES (?, ?, ?, ?)',
-        [name, slug, description, isActive ? 1 : 0]
+        'INSERT INTO categories (name, slug, description, image, is_active) VALUES (?, ?, ?, ?, ?)',
+        [name, slug, description, image, isActive ? 1 : 0]
       );
 
       const created = await queryOne<any>('SELECT * FROM categories WHERE id = ?', [result.insertId]);

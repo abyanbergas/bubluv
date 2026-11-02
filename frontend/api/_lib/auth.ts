@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getPool, queryOne } from './db';
-import { fail, setCors, handleOptions } from './http';
+import { fail, setCors, handleOptions, handleError } from './http';
 
 export interface JwtUser {
   id: number;
@@ -19,16 +19,22 @@ export function getTokenFromHeader(req: VercelRequest): string | null {
   return match ? match[1] : null;
 }
 
-export function signToken(user: JwtUser): string {
+export function getJwtSecret(): string {
   const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error('JWT_SECRET belum dikonfigurasi.');
-  return jwt.sign(user, secret, { expiresIn: '7d' });
+  if (!secret || secret.trim().length < 16) {
+    throw new Error(
+      'JWT_SECRET belum dikonfigurasi dengan benar. Set JWT_SECRET (minimal 16 karakter) di Environment Variables.'
+    );
+  }
+  return secret;
+}
+
+export function signToken(user: JwtUser): string {
+  return jwt.sign(user, getJwtSecret(), { expiresIn: '7d', algorithm: 'HS256' });
 }
 
 export function verifyToken(token: string): JwtUser {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error('JWT_SECRET belum dikonfigurasi.');
-  return jwt.verify(token, secret) as JwtUser;
+  return jwt.verify(token, getJwtSecret(), { algorithms: ['HS256'] }) as JwtUser;
 }
 
 export interface RequestWithUser extends VercelRequest {
@@ -86,6 +92,11 @@ export function wrapHandler(
     } catch (err: any) {
       if (err.status && err.message) {
         return fail(res, err.message, err.status);
+      }
+      // mysql2 errors (ECONNREFUSED, ER_ACCESS_DENIED_ERROR, dst.) & error tak terduga
+      if (err?.code && typeof err.code === 'string') {
+        console.error('[API ERROR]', err.code, err.message);
+        return fail(res, 'Gagal terhubung ke database. Periksa konfigurasi environment variables.', 500);
       }
       console.error('[API ERROR]', err);
       return res.status(500).json({

@@ -14,13 +14,14 @@ export default wrapHandler(
       const body = req.body || {};
       const name = (body.name || '').trim();
       const description = body.description ? String(body.description).trim() : null;
+      const image = body.image !== undefined ? (body.image ? String(body.image).trim() : null) : category.image;
       const isActive = body.is_active !== undefined ? bool(body.is_active, true) : true;
 
       if (!name) return fail(res, 'Nama kategori wajib diisi.', 422);
 
       await execute(
-        'UPDATE categories SET name = ?, description = ?, is_active = ? WHERE id = ?',
-        [name, description, isActive ? 1 : 0, id]
+        'UPDATE categories SET name = ?, description = ?, image = ?, is_active = ? WHERE id = ?',
+        [name, description, image, isActive ? 1 : 0, id]
       );
 
       const updated = await queryOne<any>('SELECT * FROM categories WHERE id = ?', [id]);

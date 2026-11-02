@@ -356,7 +356,8 @@ async function main() {
   check('status 200', delProd.status === 200, delProd);
 
   console.log('== Order: POST /api/orders/{orderNumber}/proof (upload bukti transfer) ==');
-  const proofMulti = buildMultipart({}, [{ name: 'payment_proof', filename: 'proof.jpg', contentType: 'image/jpeg', data: tinyPng }]);
+  const tinyJpg = Buffer.from('/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=', 'base64');
+  const proofMulti = buildMultipart({}, [{ name: 'payment_proof', filename: 'proof.jpg', contentType: 'image/jpeg', data: tinyJpg }]);
   const proofRes = await call(await import('../api/orders/[orderNumber]/proof'), 'POST', {
     query: { orderNumber },
     headers: { 'content-type': proofMulti.contentType },

@@ -8,9 +8,15 @@ import { CATEGORIES, PRODUCTS, SETTINGS, PRODUCT_IMAGES } from './seed-data';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+function parseCa(cert?: string): string | undefined {
+  if (!cert) return undefined;
+  const normalized = cert.trim().replace(/\\n/g, '\n');
+  return normalized.length > 0 ? normalized : undefined;
+}
+
 function connectionOptions(): mysql.ConnectionOptions {
-  const sslCa = process.env.DB_SSL_CA;
-  const useSsl = process.env.DB_SSL === 'true' || !!sslCa;
+  const sslCa = parseCa(process.env.DB_SSL_CA);
+  const useSsl = process.env.DB_SSL === 'true' || process.env.DB_SSL === '1' || !!sslCa;
   const options: mysql.ConnectionOptions = {
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT || 3306),
@@ -22,7 +28,8 @@ function connectionOptions(): mysql.ConnectionOptions {
   if (useSsl) {
     options.ssl = {
       rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false',
-      ca: sslCa || undefined,
+      ca: sslCa,
+      minVersion: 'TLSv1.2',
     };
   }
   return options;

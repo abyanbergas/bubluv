@@ -2,9 +2,20 @@ import mysql, { type Pool, type PoolOptions } from 'mysql2/promise';
 
 let pool: Pool | null = null;
 
+/**
+ * Normalisasi CA certificate dari environment variable.
+ * Mendukung format satu baris (dengan escape \n) maupun multi-baris.
+ */
+function parseCa(cert?: string): string | undefined {
+  if (!cert) return undefined;
+  const normalized = cert.trim().replace(/\\n/g, '\n');
+  return normalized.length > 0 ? normalized : undefined;
+}
+
 function getPoolOptions(): PoolOptions {
-  const sslCa = process.env.DB_SSL_CA;
-  const useSsl = process.env.DB_SSL === 'true' || !!sslCa;
+  const sslCa = parseCa(process.env.DB_SSL_CA);
+  // SSL aktif bila DB_SSL='true' atau bila CA disediakan. Aiven wajib SSL.
+  const useSsl = process.env.DB_SSL === 'true' || process.env.DB_SSL === '1' || !!sslCa;
 
   const options: PoolOptions = {
     host: process.env.DB_HOST,
@@ -14,6 +25,8 @@ function getPoolOptions(): PoolOptions {
     password: process.env.DB_PASSWORD,
     waitForConnections: true,
     connectionLimit: 5,
+    maxIdle: 0, // Tutup koneksi idle agar aman untuk serverless (lambda hang)
+    idleTimeout: 60,
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 10000,
@@ -21,13 +34,17 @@ function getPoolOptions(): PoolOptions {
     timezone: 'Z',
     dateStrings: false,
     decimalNumbers: true,
-    multipleStatements: false,
+    multipleStatements: false, // Cegah SQL injection multi-statement
+    connectTimeout: 10_000,
   };
 
+  // SSL/TLS wajib untuk Aiven; rejectUnauthorized default true (aman).
   if (useSsl) {
     options.ssl = {
       rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false',
-      ca: sslCa || undefined,
+      ca: sslCa,
+      // Aiven memakai TLS 1.2+
+      minVersion: 'TLSv1.2',
     };
   }
 
@@ -39,6 +56,13 @@ export function getPool(): Pool {
     pool = mysql.createPool(getPoolOptions());
   }
   return pool;
+}
+
+export async function closePool(): Promise<void> {
+  if (pool) {
+    await pool.end();
+    pool = null;
+  }
 }
 
 export async function query<T = any>(
