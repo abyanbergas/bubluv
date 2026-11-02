@@ -1,6 +1,6 @@
-import { wrapHandler, getTokenFromHeader, verifyToken } from '../_lib/auth';
-import { withTransaction } from '../_lib/db';
-import { fail, randomString } from '../_lib/http';
+import { wrapHandler, getTokenFromHeader, verifyToken } from '../_lib/auth.js';
+import { withTransaction } from '../_lib/db.js';
+import { fail, randomString } from '../_lib/http.js';
 
 export default wrapHandler(async (req, res) => {
   if (req.method !== 'POST') {

@@ -1,6 +1,6 @@
-import { wrapHandler } from '../_lib/auth';
-import { withTransaction } from '../_lib/db';
-import { fail } from '../_lib/http';
+import { wrapHandler } from '../_lib/auth.js';
+import { withTransaction } from '../_lib/db.js';
+import { fail } from '../_lib/http.js';
 
 export default wrapHandler(async (req, res) => {
   if (req.method !== 'POST') {

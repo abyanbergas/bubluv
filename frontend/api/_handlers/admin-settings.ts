@@ -1,6 +1,6 @@
-import { wrapHandler } from '../_lib/auth';
-import { query, execute } from '../_lib/db';
-import { ok, fail } from '../_lib/http';
+import { wrapHandler } from '../_lib/auth.js';
+import { query, execute } from '../_lib/db.js';
+import { ok, fail } from '../_lib/http.js';
 
 async function getAllSettings(): Promise<Record<string, string | null>> {
   const rows = await query<{ setting_key: string; setting_value: string | null }>(

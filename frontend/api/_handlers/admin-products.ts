@@ -1,8 +1,8 @@
-import { wrapHandler } from '../_lib/auth';
-import { query, queryOne, withTransaction } from '../_lib/db';
-import { ok, paginationMeta, parseIntSafe, bool, slugify, fail } from '../_lib/http';
-import { parseMultipart, parseVariantsFromFields, toDataUri } from '../_lib/multipart';
-import { mapAdminProduct } from '../_lib/products';
+import { wrapHandler } from '../_lib/auth.js';
+import { query, queryOne, withTransaction } from '../_lib/db.js';
+import { ok, paginationMeta, parseIntSafe, bool, slugify, fail } from '../_lib/http.js';
+import { parseMultipart, parseVariantsFromFields, toDataUri } from '../_lib/multipart.js';
+import { mapAdminProduct } from '../_lib/products.js';
 
 export const config = {
   api: {

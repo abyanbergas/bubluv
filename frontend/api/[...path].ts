@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { RequestWithUser } from './_lib/auth';
-import { setCors, handleOptions, fail } from './_lib/http';
+import type { RequestWithUser } from './_lib/auth.js';
+import { setCors, handleOptions, fail } from './_lib/http.js';
 
 /**
  * BubLuv API — Single Catch-All Serverless Function Router.
@@ -26,32 +26,32 @@ interface RouteDef {
   isMultipart?: boolean;
 }
 
-import settings from './_handlers/settings';
-import categories from './_handlers/categories';
-import products from './_handlers/products';
-import productsDetail from './_handlers/products-detail';
-import authLogin from './_handlers/auth-login';
-import authRegister from './_handlers/auth-register';
-import authMe from './_handlers/auth-me';
-import authProfile from './_handlers/auth-profile';
-import authLogout from './_handlers/auth-logout';
-import customerOrders from './_handlers/customer-orders';
-import orders from './_handlers/orders';
-import ordersDetail from './_handlers/orders-detail';
-import ordersProof from './_handlers/orders-proof';
-import paymentsSimulate from './_handlers/payments-simulate';
-import adminDashboard from './_handlers/admin-dashboard';
-import adminProducts from './_handlers/admin-products';
-import adminProductsId from './_handlers/admin-products-id';
-import adminCategories from './_handlers/admin-categories';
-import adminCategoriesId from './_handlers/admin-categories-id';
-import adminOrders from './_handlers/admin-orders';
-import adminOrdersId from './_handlers/admin-orders-id';
-import adminOrdersStatus from './_handlers/admin-orders-status';
-import adminPayments from './_handlers/admin-payments';
-import adminPaymentsVerify from './_handlers/admin-payments-verify';
-import adminCustomers from './_handlers/admin-customers';
-import adminSettings from './_handlers/admin-settings';
+import settings from './_handlers/settings.js';
+import categories from './_handlers/categories.js';
+import products from './_handlers/products.js';
+import productsDetail from './_handlers/products-detail.js';
+import authLogin from './_handlers/auth-login.js';
+import authRegister from './_handlers/auth-register.js';
+import authMe from './_handlers/auth-me.js';
+import authProfile from './_handlers/auth-profile.js';
+import authLogout from './_handlers/auth-logout.js';
+import customerOrders from './_handlers/customer-orders.js';
+import orders from './_handlers/orders.js';
+import ordersDetail from './_handlers/orders-detail.js';
+import ordersProof from './_handlers/orders-proof.js';
+import paymentsSimulate from './_handlers/payments-simulate.js';
+import adminDashboard from './_handlers/admin-dashboard.js';
+import adminProducts from './_handlers/admin-products.js';
+import adminProductsId from './_handlers/admin-products-id.js';
+import adminCategories from './_handlers/admin-categories.js';
+import adminCategoriesId from './_handlers/admin-categories-id.js';
+import adminOrders from './_handlers/admin-orders.js';
+import adminOrdersId from './_handlers/admin-orders-id.js';
+import adminOrdersStatus from './_handlers/admin-orders-status.js';
+import adminPayments from './_handlers/admin-payments.js';
+import adminPaymentsVerify from './_handlers/admin-payments-verify.js';
+import adminCustomers from './_handlers/admin-customers.js';
+import adminSettings from './_handlers/admin-settings.js';
 
 const routes: RouteDef[] = [
   // --- Publik ---

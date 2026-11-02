@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getPool, queryOne } from './db';
-import { fail, setCors, handleOptions, handleError } from './http';
+import { getPool, queryOne } from './db.js';
+import { fail, setCors, handleOptions, handleError } from './http.js';
 
 export interface JwtUser {
   id: number;

@@ -1,6 +1,6 @@
-import { wrapHandler, findUserByEmail, hashPassword, signToken, type JwtUser } from '../_lib/auth';
-import { execute } from '../_lib/db';
-import { fail } from '../_lib/http';
+import { wrapHandler, findUserByEmail, hashPassword, signToken, type JwtUser } from '../_lib/auth.js';
+import { execute } from '../_lib/db.js';
+import { fail } from '../_lib/http.js';
 
 export default wrapHandler(async (req, res) => {
   if (req.method !== 'POST') {

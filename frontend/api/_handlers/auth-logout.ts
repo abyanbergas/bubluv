@@ -1,4 +1,4 @@
-import { wrapHandler } from '../_lib/auth';
+import { wrapHandler } from '../_lib/auth.js';
 
 export default wrapHandler(
   async (_req, res) => {

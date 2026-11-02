@@ -1,7 +1,7 @@
-import { wrapHandler } from '../_lib/auth';
-import { queryOne, withTransaction } from '../_lib/db';
-import { fail } from '../_lib/http';
-import { attachOrderRelations } from '../_lib/orders';
+import { wrapHandler } from '../_lib/auth.js';
+import { queryOne, withTransaction } from '../_lib/db.js';
+import { fail } from '../_lib/http.js';
+import { attachOrderRelations } from '../_lib/orders.js';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'processing', 'shipped', 'completed', 'cancelled'];
 

@@ -1,5 +1,5 @@
-import { wrapHandler } from '../_lib/auth';
-import { queryOne } from '../_lib/db';
+import { wrapHandler } from '../_lib/auth.js';
+import { queryOne } from '../_lib/db.js';
 
 export default wrapHandler(
   async (req, res) => {

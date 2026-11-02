@@ -1,6 +1,6 @@
-import { wrapHandler } from '../_lib/auth';
-import { query } from '../_lib/db';
-import { ok } from '../_lib/http';
+import { wrapHandler } from '../_lib/auth.js';
+import { query } from '../_lib/db.js';
+import { ok } from '../_lib/http.js';
 
 export default wrapHandler(async (_req, res) => {
   const categories = await query(

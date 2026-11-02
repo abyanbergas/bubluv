@@ -1,6 +1,6 @@
-import { wrapHandler } from '../_lib/auth';
-import { query, queryOne } from '../_lib/db';
-import { fail, ok } from '../_lib/http';
+import { wrapHandler } from '../_lib/auth.js';
+import { query, queryOne } from '../_lib/db.js';
+import { fail, ok } from '../_lib/http.js';
 
 async function variantsForProduct(productId: number, onlyActive = false) {
   const rows = await query(

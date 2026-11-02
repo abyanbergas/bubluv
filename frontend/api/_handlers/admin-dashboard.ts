@@ -1,7 +1,7 @@
-import { wrapHandler } from '../_lib/auth';
-import { query, queryOne } from '../_lib/db';
-import { ok } from '../_lib/http';
-import { attachOrderRelations } from '../_lib/orders';
+import { wrapHandler } from '../_lib/auth.js';
+import { query, queryOne } from '../_lib/db.js';
+import { ok } from '../_lib/http.js';
+import { attachOrderRelations } from '../_lib/orders.js';
 
 export default wrapHandler(
   async (_req, res) => {

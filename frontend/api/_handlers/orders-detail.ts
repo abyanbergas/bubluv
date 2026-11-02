@@ -1,6 +1,6 @@
-import { wrapHandler, getTokenFromHeader, verifyToken } from '../_lib/auth';
-import { queryOne, query } from '../_lib/db';
-import { fail, ok } from '../_lib/http';
+import { wrapHandler, getTokenFromHeader, verifyToken } from '../_lib/auth.js';
+import { queryOne, query } from '../_lib/db.js';
+import { fail, ok } from '../_lib/http.js';
 
 export default wrapHandler(async (req, res) => {
   if (req.method !== 'GET') {

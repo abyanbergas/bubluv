@@ -1,4 +1,4 @@
-import { query } from './db';
+import { query } from './db.js';
 
 export async function attachOrderRelations(order: any, opts: { itemsWithProduct?: boolean } = {}) {
   const items = await query<any>('SELECT * FROM order_items WHERE order_id = ? ORDER BY id ASC', [order.id]);

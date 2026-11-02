@@ -1,4 +1,4 @@
-import { query, queryOne } from './db';
+import { query, queryOne } from './db.js';
 
 export async function mapAdminProduct(p: any) {
   const category = await queryOne<any>('SELECT * FROM categories WHERE id = ? LIMIT 1', [p.category_id]);
