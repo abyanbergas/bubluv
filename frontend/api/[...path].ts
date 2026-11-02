@@ -108,7 +108,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   if (handleOptions(req, res)) return;
 
   const method = (req.method || 'GET').toUpperCase();
-  const rawPath = Array.isArray(req.query.path) ? req.query.path.join('/') : String(req.query.path || '');
+
+  // Prioritas 1: req.query.path (file-based routing Vercel)
+  let rawPath = Array.isArray(req.query.path) ? req.query.path.join('/') : String(req.query.path || '');
+
+  // Prioritas 2: fallback parse dari req.url (mis. "/api/settings?x=1")
+  if (!rawPath) {
+    const urlStr = String(req.url || '');
+    if (urlStr) {
+      let pathname = urlStr;
+      try {
+        pathname = new URL(urlStr, 'http://localhost').pathname;
+      } catch {
+        const q = urlStr.indexOf('?');
+        if (q >= 0) pathname = urlStr.slice(0, q);
+      }
+      pathname = decodeURIComponent(pathname).replace(/^\/+|\/+$/g, '');
+      if (pathname === 'api') {
+        rawPath = '';
+      } else if (pathname.startsWith('api/')) {
+        rawPath = pathname.slice(4);
+      } else {
+        rawPath = pathname;
+      }
+    }
+  }
+
   const path = decodeURIComponent(rawPath).replace(/^\/+|\/+$/g, '');
 
   // Path traversal guard
