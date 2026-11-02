@@ -102,10 +102,6 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="font-poppins font-bold text-base text-[#35264A]">Kontak</h4>
             <div className="space-y-3 text-sm text-[#746A7E]">
-              <div className="flex items-center gap-2.5">
-                <WhatsAppIcon className="w-4 h-4 text-[#7652A8] flex-shrink-0" />
-                <span>{settings.store_phone || '+62 812-3456-7890'}</span>
-              </div>
               <div className="text-xs text-[#746A7E]">
                 Email: <span className="text-[#7652A8] font-semibold">{settings.store_email || 'halo@bubluv.com'}</span>
               </div>
