@@ -1,7 +1,7 @@
-import { wrapHandler } from '../../_lib/auth';
-import { withTransaction, queryOne } from '../../_lib/db';
-import { fail } from '../../_lib/http';
-import { parseMultipart, toDataUri } from '../../_lib/multipart';
+import { wrapHandler } from '../_lib/auth';
+import { withTransaction, queryOne } from '../_lib/db';
+import { fail } from '../_lib/http';
+import { parseMultipart, toDataUri } from '../_lib/multipart';
 
 export const config = {
   api: {

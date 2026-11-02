@@ -1,6 +1,6 @@
-import { wrapHandler } from '../../_lib/auth';
-import { queryOne, execute } from '../../_lib/db';
-import { fail, ok, bool } from '../../_lib/http';
+import { wrapHandler } from '../_lib/auth';
+import { queryOne, execute } from '../_lib/db';
+import { fail, ok, bool } from '../_lib/http';
 
 export default wrapHandler(
   async (req, res) => {

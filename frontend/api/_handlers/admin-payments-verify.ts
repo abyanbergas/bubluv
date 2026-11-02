@@ -1,7 +1,7 @@
-import { wrapHandler } from '../../../_lib/auth';
-import { queryOne, withTransaction } from '../../../_lib/db';
-import { fail } from '../../../_lib/http';
-import { mapOrderBase, mapPayment } from '../../../_lib/orders';
+import { wrapHandler } from '../_lib/auth';
+import { queryOne, withTransaction } from '../_lib/db';
+import { fail } from '../_lib/http';
+import { mapOrderBase, mapPayment } from '../_lib/orders';
 
 export default wrapHandler(
   async (req, res) => {

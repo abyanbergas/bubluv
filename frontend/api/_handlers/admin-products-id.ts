@@ -1,9 +1,9 @@
-import { wrapHandler } from '../../_lib/auth';
-import { queryOne, query, withTransaction } from '../../_lib/db';
-import { ok, fail, bool, slugify } from '../../_lib/http';
-import { parseMultipart, parseVariantsFromFields, toDataUri } from '../../_lib/multipart';
-import { mapAdminProduct } from '../../_lib/products';
-import { attachOrderRelations } from '../../_lib/orders';
+import { wrapHandler } from '../_lib/auth';
+import { queryOne, query, withTransaction } from '../_lib/db';
+import { ok, fail, bool, slugify } from '../_lib/http';
+import { parseMultipart, parseVariantsFromFields, toDataUri } from '../_lib/multipart';
+import { mapAdminProduct } from '../_lib/products';
+import { attachOrderRelations } from '../_lib/orders';
 
 export const config = {
   api: {
